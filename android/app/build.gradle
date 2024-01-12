@@ -42,6 +42,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.smart_home_flutter_ui"
         // You can update the following values to match your application needs.
@@ -68,4 +69,8 @@ flutter {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.gms:play-services-base:17.6.0'  // Adjust version as needed
+    implementation 'io.grpc:grpc-android:1.41.0'  // Adjust version as needed
 }
