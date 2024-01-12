@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_home_flutter_ui/LoginScreen.dart';
+import 'package:smart_home_flutter_ui/LoginPages/LoginScreen.dart';
 //import 'package:smart_home_flutter_ui/LoginScreen.dart';
 import 'package:smart_home_flutter_ui/constants/app_colors.dart';
 import 'package:smart_home_flutter_ui/firebase_options.dart';
@@ -11,6 +11,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //last change
   runApp(const MyApp());
 }
 

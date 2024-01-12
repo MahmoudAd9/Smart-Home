@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:smart_home_flutter_ui/LoginPages/LoginScreen.dart';
 import 'package:smart_home_flutter_ui/constants/app_colors.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key});
+  final Map<String, dynamic> userData;
+  const CustomDrawer({required this.userData});
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Drawer(
         shape: const RoundedRectangleBorder(
@@ -57,7 +61,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     decoration: BoxDecoration(
                       image: const DecorationImage(
                         image: NetworkImage(
-                            "https://randomuser.me/api/portraits/women/13.jpg"),
+                            "https://randomuser.me/api/portraits/men/51.jpg"),
                         fit: BoxFit.cover,
                       ),
                       border: Border.all(width: 2, color: AppColor.white),
@@ -69,16 +73,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Hi Vaishali",
+                      Text(
+                        "${widget.userData['FirstName']} ${widget.userData['LastName']}",
                         style: TextStyle(
                           color: AppColor.white,
-                          fontSize: 20,
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showProfile(widget.userData,context);
+                        },
                         style: OutlinedButton.styleFrom(
                             foregroundColor: AppColor.white,
                             side: const BorderSide(color: AppColor.white),
@@ -87,7 +93,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               borderRadius: BorderRadius.circular(20),
                             )),
                         child: const Text(
-                          "Edit Profile",
+                          "Show Profile",
                           style: TextStyle(fontSize: 12),
                         ),
                       ),
@@ -107,7 +113,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               drawerTile(Icons.settings, "  Settings", () {}),
               drawerTile(Icons.help_outline, "  Help", () {}),
               const Spacer(),
-              drawerTile(Icons.power_settings_new_outlined, "  Logout", () {}),
+              drawerTile(Icons.power_settings_new_outlined, "  Logout",(){showAlertDialogLougOut(context);}),
             ],
           ),
         ),
@@ -130,4 +136,126 @@ class _CustomDrawerState extends State<CustomDrawer> {
       ),
     );
   }
+}
+
+showAlertDialogLougOut(BuildContext context) {
+  // set up the button
+  Widget yesButton = TextButton(
+    child: Text("Yes"),
+    onPressed: () {
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
+
+    },
+  );
+  Widget noButton = TextButton(
+    child: Text("No"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Are you sure ?",style: TextStyle(fontSize: 20),),
+    actions: [
+      noButton,
+      yesButton,
+
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
+ showProfile(Map<String, dynamic> userData,BuildContext context) {
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  Widget bodyProfile=Container(
+alignment: Alignment.centerLeft,
+    child: Column(
+      children: [
+           Text(("First Name"),style: TextStyle(fontWeight: FontWeight.bold),),
+            TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(50)),),
+                prefixIcon: Icon(Icons.drive_file_rename_outline),
+                hintText: userData['FirstName'],
+              ),
+              readOnly: true,
+                ),
+        SizedBox(height: 10,),
+        Text(("Last Name"),style: TextStyle(fontWeight: FontWeight.bold),),
+        TextField(
+          enabled: false,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(50)),),
+            prefixIcon: Icon(Icons.drive_file_rename_outline),
+            hintText: userData['LastName'],
+          ),
+          readOnly: true,
+        ),
+        SizedBox(height: 10,),
+        Text(("Email"),style: TextStyle(fontWeight: FontWeight.bold),),
+        TextField(
+          enabled: false,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(50)),),
+            prefixIcon: Icon(Icons.mail),
+            hintText: userData['Email'],
+          ),
+          readOnly: true,
+        ),
+        SizedBox(height: 10,),
+        Text(("Phone Number"),style: TextStyle(fontWeight: FontWeight.bold),),
+        TextField(
+          enabled: false,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(50)),),
+            prefixIcon: Icon(Icons.phone),
+            hintText: userData['PhoneNumber'],
+          ),
+          readOnly: true,
+        ),
+        SizedBox(height: 20,)
+      ],
+    ),
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+
+    actionsAlignment: MainAxisAlignment.center,
+    title: Text(
+      "Profile",
+      style: TextStyle(fontSize: 20),
+    ),
+   /* content: Container(
+    width: MediaQuery.of(context).size.width*4.0,
+    child:   bodyProfile,
+  ),*/
+
+
+    actions: [
+      bodyProfile,
+      okButton,
+    ],
+
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:smart_home_flutter_ui/constants/app_colors.dart';
@@ -7,18 +8,34 @@ import 'package:smart_home_flutter_ui/screen/widgets/custom_drawer.dart';
 import '../model/smart_home_model.dart';
 
 class SmartHomeScreen extends StatefulWidget {
-  const SmartHomeScreen({super.key});
+  final userUid;
+  const SmartHomeScreen({required this.userUid});
 
   @override
   State<SmartHomeScreen> createState() => _SmartHomeScreenState();
 }
 
 class _SmartHomeScreenState extends State<SmartHomeScreen> {
-  @override
+
+Map<String, dynamic> userData={};
+  Future getdata() async {
+    final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+    final DocumentReference userDocument = usersCollection.doc(widget.userUid);
+    userDocument.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // Document exists, retrieve the data
+        userData = documentSnapshot.data() as Map<String, dynamic>;
+      } else {
+        print("error of get collections");
+      }
+    });// replace userID with the actual user ID
+  }
+@override
   Widget build(BuildContext context) {
+  getdata();
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(userData: userData),
       body: SafeArea(
           child: Column(
         children: [
@@ -83,8 +100,9 @@ class _SmartHomeScreenState extends State<SmartHomeScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "Hi Vaishali",
+                       Text(
+                     "Hi ${userData['FirstName']} ${userData['LastName']}",
+
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w600,
@@ -196,4 +214,7 @@ class _SmartHomeScreenState extends State<SmartHomeScreen> {
           image: DecorationImage(image: NetworkImage(imageUrl))),
     );
   }
+
+
+
 }
