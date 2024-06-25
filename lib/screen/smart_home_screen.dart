@@ -24,7 +24,10 @@ Map<String, dynamic> userData={};
     userDocument.get().then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         // Document exists, retrieve the data
-        userData = documentSnapshot.data() as Map<String, dynamic>;
+        setState(() {
+          userData = documentSnapshot.data() as Map<String, dynamic>;
+        });
+
       } else {
         print("error of get collections");
       }
@@ -32,7 +35,7 @@ Map<String, dynamic> userData={};
   }
 @override
   Widget build(BuildContext context) {
-  getdata();
+  //getdata();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       drawer: CustomDrawer(userData: userData),
@@ -88,10 +91,10 @@ Map<String, dynamic> userData={};
                             color: AppColor.fgColor,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
-                            Icons.add,
-                            size: 30,
-                            color: AppColor.white,
+                          child: IconButton(
+                            color: AppColor.white, onPressed: () {
+                              getdata();
+                          }, icon: Icon(Icons.refresh,size: 25,),
                           ),
                         ),
                       )

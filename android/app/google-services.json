@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1009060033415",
+    "project_id": "smarthouse-df054",
+    "storage_bucket": "smarthouse-df054.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009060033415:android:e442d0177d9be55b37d922",
+        "android_client_info": {
+          "package_name": "com.example.smart_home_flutter_ui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI0B1EAB0g_iOFNKMB_uuIkEMTwacka-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

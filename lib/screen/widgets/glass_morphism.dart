@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:smart_home_flutter_ui/constants/app_colors.dart';
 
